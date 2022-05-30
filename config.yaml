@@ -1,0 +1,14 @@
+# repository: git@github.com:michaelhelvey/dotfiles.git
+repository: git@github.com:michaelhelvey/dotfiles-test-backup.git
+cache: .cache/dotfiles/
+files:
+  - ~/.config/nvim/init.vim
+  - ~/.config/nvim/color_utils.vim
+  - ~/.config/polybar/polybar_launch.sh
+  - ~/.config/polybar/topbar.ini
+  - ~/.config/i3/config
+  - ~/.config/alacritty/alacritty.yml
+  - ~/.zshrc
+  - ~/.Xresources
+  - ~/.tmux.conf
+  - ~/.config/Code/User/settings.json
