@@ -1,7 +1,6 @@
 import logging
 import os
 import subprocess as sb
-import shutil
 import sys
 
 import yaml
@@ -29,13 +28,12 @@ def _sync_files(files, repo):
 
         local_file = os.path.expanduser(file)
 
+        remote_file = repo.get_remote_filepath(local_file)
         if not os.path.exists(local_file):
-            logger.warning(
-                f"File {local_file} does not exist on this machine. Skipping"
-            )
+            logger.info(f"Creating new file {local_file}")
+            safe_copy(remote_file, local_file)
             continue
 
-        remote_file = repo.get_remote_filepath(local_file)
         if not compare_files(local_file, remote_file):
             print(
                 colored(
@@ -52,5 +50,5 @@ def _sync_files(files, repo):
             if overwrite:
                 logger.info(f"Writing contents of {remote_file} to {local_file}")
                 safe_copy(remote_file, local_file)
-    
+
     print_bold_title("Sync complete.  Local files are now identical to remote")

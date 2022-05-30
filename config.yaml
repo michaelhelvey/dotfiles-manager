@@ -1,6 +1,5 @@
-# repository: git@github.com:michaelhelvey/dotfiles.git
-repository: git@github.com:michaelhelvey/dotfiles-test-backup.git
-cache: .cache/dotfiles/
+repository: git@github.com:michaelhelvey/dotfiles.git
+cache: ~/.cache/dotfiles/
 files:
   - ~/.config/nvim/init.vim
   - ~/.config/nvim/color_utils.vim

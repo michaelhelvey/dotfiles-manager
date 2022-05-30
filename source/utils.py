@@ -20,14 +20,15 @@ def get_hostname() -> str:
         return os.uname()[1]
 
 
-def ask_user(prompt, on_failure):
+def ask_user(prompt, on_failure=None):
     answer = input(f"> {prompt} (y/n): ")
 
     accepted_inputs = ["Y", "y", "yes", "Yes"]
     if answer in accepted_inputs:
         return True
     else:
-        on_failure()
+        if on_failure:
+            on_failure()
         return False
 
 

@@ -7,6 +7,7 @@ import subprocess as sb
 import sys
 import pathlib
 from typing import Optional
+from termcolor import colored
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 logger = logging.getLogger()
@@ -69,7 +70,12 @@ class GitRepo:
         logger.info(
             f"Pulling latest changes into current branch (strategy=merge, branch={branch})"
         )
-        sb.check_call(["git", "merge", f"origin/{branch}"], cwd=self.cwd)
+        if sb.call(["git", "merge", f"origin/{branch}"], cwd=self.cwd) != 0:
+            if input("is this a new machine configuration? (y/n) ") == "y":
+                logger.info("Origin does not exist yet  Skipping merge")
+            else:
+                print(colored("Error: git error: could not merge origin, and you said that it should exist.  Exciting so files are not corrupted", "red", attrs=["bold"]))
+                sys.exit(1)
 
     def get_remote_filepath(self, file: str):
         path = os.path.expanduser(file)
@@ -84,6 +90,11 @@ class GitRepo:
         return sb.check_output(["git", "status"], cwd=self.cwd).decode()
 
     def commit_backup(self):
+        status = self.status()
+        if "working tree clean" in status:
+            logger.info("Skipping commit, as there is nothing to commit")
+            return
+        
         dt = datetime.now()
         msg = f"Backup {dt.strftime('%D %T %p')}"
         logger.info(

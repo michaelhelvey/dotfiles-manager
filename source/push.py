@@ -34,12 +34,5 @@ def _push_files(files, repo):
                 f"File {local_file} does not exist on this machine. Skipping"
             )
 
-    # print the status of remote before commiting
-    status = repo.status()
-
-    if "working tree clean" in status:
-        print_bold_title("No local changes to push.  Exiting.")
-        return
-
     repo.commit_backup()
     repo.push()
